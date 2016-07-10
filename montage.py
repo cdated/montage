@@ -7,9 +7,9 @@ import pwd
 import requests
 from lxml import html
 
-def main(username, productivity):
+def main(cookie, username, productivity):
     with requests.Session() as s:
-        c = open('cookie').readlines()
+        c = open(cookie).readlines()
         cookies = {}
         for line in c:
             key = line[0:line.find('=')]
@@ -30,9 +30,9 @@ def main(username, productivity):
                 os.system(selfcontrol)
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2:
-        main(username=sys.argv[1])
-    elif len(sys.argv) == 3:
-        main(username=sys.argv[1], productivity=sys.argv[2])
+    if len(sys.argv) == 3:
+        main(cookie=sys.argv[1], username=sys.argv[2])
+    elif len(sys.argv) == 4:
+        main(cookie=sys.argv[1], username=sys.argv[2], productivity=sys.argv[3])
     else:
-        print("Usage: montage.py username [productivity]")
+        print("Usage: montage.py cookie username [productivity]")
