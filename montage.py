@@ -20,10 +20,11 @@ def main(username, productivity):
         if score:
             score = score[0]
 
-        if int(score) < productivity:
-            uid = pwd.getpwnam(username).pw_uid
-            selfcontrol = "/Applications/SelfControl.app/Contents/MacOS/org.eyebeam.SelfControl " + str(uid) + " --install"
-            os.system(selfcontrol)
+            if int(score) < productivity:
+                uid = pwd.getpwnam(username).pw_uid
+                selfcontrol = "/Applications/SelfControl.app/Contents/" + \
+                        "MacOS/org.eyebeam.SelfControl %s --install" % str(uid)
+                os.system(selfcontrol)
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
