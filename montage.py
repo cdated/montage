@@ -27,7 +27,7 @@ def main(cookie, username, productivity):
         score = elem[0].get("data-productivity-score")
 
         if score:
-            if int(score) < productivity:
+            if int(score) < int(productivity):
                 uid = pwd.getpwnam(username).pw_uid
                 selfcontrol = "/Applications/SelfControl.app/Contents/" + \
                         "MacOS/org.eyebeam.SelfControl %s --install" % str(uid)
