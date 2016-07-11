@@ -5,7 +5,9 @@ import os
 import sys
 import pwd
 import requests
+import datetime
 from lxml import html
+from lxml import etree
 
 def main(cookie, username, productivity):
     with requests.Session() as s:
@@ -16,13 +18,15 @@ def main(cookie, username, productivity):
             value = line[line.find('=')+1:].strip().replace(';','')
             cookies[key] = value
 
-        r = s.get('https://www.rescuetime.com/browse/productivity/by/rank', cookies=cookies)
+        date = datetime.datetime.now()
+        datestr = str(date).split(' ')[0].replace('-0', '-')
+        url = 'https://www.rescuetime.com/dashboard/for/the/day/of/' + datestr
+        r = s.get(url, cookies=cookies)
         tree = html.fromstring(r.text)
-        score = tree.xpath('//h2[@class="efficiency-score"]/text()')
+        elem = tree.find_class('productivity-score-chart')
+        score = elem[0].get("data-productivity-score")
 
         if score:
-            score = score[0]
-
             if int(score) < productivity:
                 uid = pwd.getpwnam(username).pw_uid
                 selfcontrol = "/Applications/SelfControl.app/Contents/" + \
